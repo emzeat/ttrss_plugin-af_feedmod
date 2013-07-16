@@ -134,6 +134,11 @@ class Af_Feedmod extends Plugin implements IHandler
                                 }
                             }
                             $article['content'] = $doc->saveXML($basenode);
+                            // fix dead links and image references
+                            if (isset($config['relative_links_to_host'])) {
+                              $article['content'] = str_replace( 'href="/', 'href="' . $config['relative_links_to_host'] . '/', $article['content']);
+                              $article['content'] = str_replace( 'src="/', 'src="' . $config['relative_links_to_host'] . '/', $article['content']);
+                            }
                             $article['plugin_data'] = "feedmod,$owner_uid:" . $article['plugin_data'];
                         }
                     }
